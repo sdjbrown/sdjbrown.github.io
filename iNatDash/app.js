@@ -76,3 +76,13 @@ var leftAxis = d3.axisLeft(yScale);
 d3.select('svg')
 	.append('g')
 	.call(leftAxis);
+	
+var createTable = function() {
+	for(var i = 0; i < runs.length; i++) {
+		var row = d3.select('tbody').append('tr');
+		row.append('td').html(runs[i].id);
+		row.append('td').html(runs[i].date);
+		row.append('td').html(runs[i].distance);
+	}
+}
+createTable();
