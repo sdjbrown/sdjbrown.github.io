@@ -7,12 +7,12 @@ async function iNatRetrieve() {
   return out[0]
 }
 
-async function iNatPrint() {
-	var printRes = await iNatRetrieve();
-	console.log(printRes);
-	d3.select('#iNat').text(printRes.dateString+': '+printRes.count)
-	//d3.select('#iNat').text(dd+': '+cc)
-}
+//async function iNatPrint() {
+//	var printRes = await iNatRetrieve();
+//	console.log(printRes);
+//	d3.select('#iNat').text(printRes.dateString+': '+printRes.count)
+//	//d3.select('#iNat').text(dd+': '+cc)
+//}
 
 var iNatArray = [{dateString: new Date(Date.now()), count: 0}];
 
@@ -22,11 +22,9 @@ async function addData() {
 	return iNatArray.push(ndata);
 }
 
-var iNatRecentValue = iNatArray.slice(-1)[0];
-console.log(iNatRecentValue);
-
-d3.select('#iNat').text(iNatRecentValue.dateString+': '+iNatRecentValue.count);
-
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
 
 //https://dev.to/jsmccrumb/asynchronous-setinterval-4j69
 
@@ -62,66 +60,50 @@ const clearAsyncInterval = (intervalIndex) => {
 setAsyncInterval(async () => {
   console.log('start'+counter++);
   await addData();
-}, 60 * 1000);
+  $('#iNat').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].count);
+  dynamicPlot(iNatArray);
+}, 5 * 1000);
 
-
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
 
 var WIDTH = 800;
 var HEIGHT = 500;
 
-var runs = [
-{
-	id: 1,
-	date: 'October 1, 2017 at 4:00PM',
-	distance: 5.2
-},
-{
-	id: 2,
-	date: 'October 2, 2017 at 5:00PM',
-	distance: 7.072
-},
-{
-	id: 3,
-	date: 'October 3, 2017 at 6:00PM',
-	distance: 8.7
-},
-{
-	id: 4,
-	date: 'October 4, 2017 at 6:00PM',
-	distance: 6.5
-}
-];
+function dynamicPlot(iNatArrayObject) {
 
 d3.select('svg')
 	.style('width', WIDTH + 'px')
 	.style('height', HEIGHT + 'px');
 
 var yScale = d3.scaleLinear();
-yScale.range([HEIGHT, 10]);
-var yDomain = d3.extent(runs, function(datum, index){
-	return datum.distance;
-})
-yScale.domain(yDomain);
+yScale.range([HEIGHT, 0]);
+//var yDomain = d3.extent(runs, function(datum, index){
+//	return datum.distance;
+//})
+//yScale.domain(yDomain);
+yScale.domain([524960, 524980]);
 
 //console.log(yScale.domain())
 //console.log(yScale.range())
 
 d3.select('svg').selectAll('circle')
-	.data(runs)
+	.data(iNatArrayObject)
 	.enter()
 	.append('circle')
 
 d3.selectAll('circle')
 	.attr('cy', function(datum, index){
-		return yScale(datum.distance);
+		return yScale(datum.count);
 	});
 	
 var parseTime = d3.timeParse("%B%e, %Y at %-I:%M%p");
 var formatTime = d3.timeFormat("%d %b %Y %-I:%M%p");
 var xScale = d3.scaleTime();	
 xScale.range([0, WIDTH]);
-var xDomain = d3.extent(runs, function(datum, index){
-	return parseTime(datum.date);
+var xDomain = d3.extent(iNatArrayObject, function(datum, index){
+	return datum.dateString;
 })
 xScale.domain(xDomain);
 
@@ -129,9 +111,9 @@ xScale.domain(xDomain);
 //console.log(xScale.range())
 	
 	
-d3.selectAll('circle').data(runs)
+d3.selectAll('circle').data(iNatArrayObject)
 	.attr('cx', function(datum, index){
-		return xScale(parseTime(datum.date));
+		return xScale(datum.dateString);
 	});
 
 var bottomAxis = d3.axisBottom(xScale);
@@ -146,11 +128,12 @@ d3.select('svg')
 	.call(leftAxis);
 	
 var createTable = function() {
-	for(var i = 0; i < runs.length; i++) {
+	for(var i = 0; i < iNatArray.length; i++) {
 		var row = d3.select('tbody').append('tr');
-		row.append('td').html(runs[i].id);
-		row.append('td').html(runs[i].date);
-		row.append('td').html(runs[i].distance);
+		row.append('td').html(iNatArrayObject[i].dateString);
+		row.append('td').html(iNatArrayObject[i].count);
 	}
 }
 createTable();
+
+}
