@@ -1,3 +1,20 @@
+async function iNatRetrieve() {
+  const response = await fetch('https://api.inaturalist.org/v1/observations?taxon_id=60473');
+  const myJson = await response.json(); //extract JSON from the http response
+  const date = new Date(Date.now());
+  const res = myJson.total_results;
+  const out =  [{dateString: date, count: res}];
+  return out[0]
+}
+
+async function iNatPrint() {
+	var printRes = await iNatRetrieve();
+	console.log(printRes);
+	d3.select('#iNat').text(printRes.dateString+': '+printRes.count)
+	//d3.select('#iNat').text(dd+': '+cc)
+}
+
+
 var WIDTH = 800;
 var HEIGHT = 500;
 
