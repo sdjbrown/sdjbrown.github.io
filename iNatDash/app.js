@@ -14,6 +14,57 @@ async function iNatPrint() {
 	//d3.select('#iNat').text(dd+': '+cc)
 }
 
+var iNatArray = [{dateString: new Date(Date.now()), count: 0}];
+
+async function addData() {
+	console.log(iNatArray);
+	const ndata = await iNatRetrieve();
+	return iNatArray.push(ndata);
+}
+
+var iNatRecentValue = iNatArray.slice(-1)[0];
+console.log(iNatRecentValue);
+
+d3.select('#iNat').text(iNatRecentValue.dateString+': '+iNatRecentValue.count);
+
+
+//https://dev.to/jsmccrumb/asynchronous-setinterval-4j69
+
+var counter = 0
+
+const asyncIntervals = [];
+
+const runAsyncInterval = async (cb, interval, intervalIndex) => {
+  await cb();
+  if (asyncIntervals[intervalIndex].run) {
+    asyncIntervals[intervalIndex].id = setTimeout(() => runAsyncInterval(cb, interval, intervalIndex), interval)
+  }
+};
+
+const setAsyncInterval = (cb, interval) => {
+  if (cb && typeof cb === "function") {
+    const intervalIndex = asyncIntervals.length;
+    asyncIntervals.push({run: true, id: 0});
+    runAsyncInterval(cb, interval, intervalIndex);
+    return intervalIndex;
+  } else {
+    throw new Error('Callback must be a function');
+  }
+};
+
+const clearAsyncInterval = (intervalIndex) => {
+  if (asyncIntervals[intervalIndex].run) {
+     clearTimeout(asyncIntervals[intervalIndex].id)
+     asyncIntervals[intervalIndex].run = false
+  }
+};
+
+setAsyncInterval(async () => {
+  console.log('start'+counter++);
+  await addData();
+}, 60 * 1000);
+
+
 
 var WIDTH = 800;
 var HEIGHT = 500;
@@ -52,8 +103,8 @@ var yDomain = d3.extent(runs, function(datum, index){
 })
 yScale.domain(yDomain);
 
-console.log(yScale.domain())
-console.log(yScale.range())
+//console.log(yScale.domain())
+//console.log(yScale.range())
 
 d3.select('svg').selectAll('circle')
 	.data(runs)
