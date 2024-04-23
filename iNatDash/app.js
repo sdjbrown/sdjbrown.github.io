@@ -1,9 +1,15 @@
 async function iNatRetrieve() {
-  const response = await fetch('https://api.inaturalist.org/v1/observations?taxon_id=60473');
-  const myJson = await response.json(); //extract JSON from the http response
+  const allURL = await fetch('https://api.inaturalist.org/v1/observations?verifiable=true');
+  const allJson = await allURL.json(); //extract JSON from the http response
+  const weevilURL = await fetch('https://api.inaturalist.org/v1/observations?taxon_id=60473&verifiable=true');
+  const weevilJson = await weevilURL.json(); //extract JSON from the http response
+  const idURL = await fetch('https://api.inaturalist.org/v1/identifications?own_observation=false&user_id=sdjbrown&current=true&order=desc&order_by=created_at');
+  const idJson = await idURL.json(); //extract JSON from the http response
   const date = new Date(Date.now());
-  const res = myJson.total_results;
-  const out =  [{dateString: date, count: res}];
+  const weevilRes = weevilJson.total_results;
+  const allRes = allJson.total_results;
+  const idRes = idJson.total_results;
+  const out =  [{dateString: date, allCount: allRes, weevilCount: weevilRes, idCount: idRes}];
   return out[0]
 }
 
@@ -14,12 +20,28 @@ async function iNatRetrieve() {
 //	//d3.select('#iNat').text(dd+': '+cc)
 //}
 
-var iNatArray = [{dateString: new Date(Date.now()), count: 0}];
+var iNatArray = [];
 
 async function addData() {
 	console.log(iNatArray);
 	const ndata = await iNatRetrieve();
 	return iNatArray.push(ndata);
+}
+
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------
+
+// Create a blob of the data
+var fileToSave = new Blob([JSON.stringify(iNatArray)], {
+    type: 'application/json'
+});
+
+var fileName = 'iNatArray.json'
+
+// Save the file
+function saveFile() {
+saveAs(fileToSave, fileName);
 }
 
 //--------------------------------------------------------------------------------
@@ -60,7 +82,7 @@ const clearAsyncInterval = (intervalIndex) => {
 setAsyncInterval(async () => {
   console.log('start'+counter++);
   await addData();
-  $('#iNat').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].count);
+  $('#iNat').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].allCount);
   dynamicPlot(iNatArray);
 }, 5 * 1000);
 
@@ -77,15 +99,21 @@ d3.select('svg')
 	.style('width', WIDTH + 'px')
 	.style('height', HEIGHT + 'px');
 
+d3.selectAll("g > *").remove()
+	
 var yScale = d3.scaleLinear();
 yScale.range([HEIGHT, 0]);
-//var yDomain = d3.extent(runs, function(datum, index){
-//	return datum.distance;
-//})
-//yScale.domain(yDomain);
-yScale.domain([524960, 524980]);
+var yMin = d3.min(iNatArrayObject, function(datum, index){
+	return datum.allCount - 100;
+})
+var yMax = d3.max(iNatArrayObject, function(datum, index){
+	return datum.allCount + 100;
+})
 
-//console.log(yScale.domain())
+//yScale.domain(yDomain);
+yScale.domain([yMin, yMax]);
+
+//console.log(yMax)
 //console.log(yScale.range())
 
 d3.select('svg').selectAll('circle')
@@ -95,7 +123,7 @@ d3.select('svg').selectAll('circle')
 
 d3.selectAll('circle')
 	.attr('cy', function(datum, index){
-		return yScale(datum.count);
+		return yScale(datum.allCount);
 	});
 	
 var parseTime = d3.timeParse("%B%e, %Y at %-I:%M%p");
@@ -126,14 +154,5 @@ var leftAxis = d3.axisLeft(yScale);
 d3.select('svg')
 	.append('g')
 	.call(leftAxis);
-	
-var createTable = function() {
-	for(var i = 0; i < iNatArray.length; i++) {
-		var row = d3.select('tbody').append('tr');
-		row.append('td').html(iNatArrayObject[i].dateString);
-		row.append('td').html(iNatArrayObject[i].count);
-	}
-}
-createTable();
 
 }
