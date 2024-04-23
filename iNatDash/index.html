@@ -7,23 +7,41 @@
 </head>
 
 <body>
+<div class="grid-container">
 
-Hello everyone this is starting to get built
+<div class="grid-item" id='AllObservations'>
+<h3>All observations</h3>
+<span id='summary'></span>
 
-<br />
-<button onclick="saveFile()">Download data</button>
-<br />
-<span id='iNat'></span>
-
-<br />
-
-<br />
-<button onclick="clearAsyncInterval(0)">Start</button>
-<button onclick="clearAsyncInterval(0)">Stop</button>
-<br />
-
-<svg>
+<svg id='totalObs'>
 </svg>
+
+</div>
+
+
+<div class="grid-item" id='WeevilObservations'>
+<h3>Weevil observations</h3>
+<span id='summary'></span>
+
+<svg id='weevilObs'>
+</svg>
+
+</div>
+
+
+<div class="grid-item" id='MyIdentifications'>
+<h3>My identifications</h3>
+<span id='summary'></span>
+
+<svg id='myIds'>
+</svg>
+
+</div>
+</div>
+
+<div id='Download'>
+<button onclick="saveFile()">Download data</button>
+</div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>

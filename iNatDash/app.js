@@ -82,32 +82,37 @@ const clearAsyncInterval = (intervalIndex) => {
 setAsyncInterval(async () => {
   console.log('start'+counter++);
   await addData();
-  $('#iNat').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].allCount);
-  dynamicPlot(iNatArray);
-}, 5 * 1000);
+  $('#AllObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].allCount);
+  $('#WeevilObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].weevilCount);
+  $('#MyIdentifications span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].idCount);
+  dynamicPlot(iNatArray, 'allCount', '#totalObs');
+  dynamicPlot(iNatArray, 'weevilCount', '#weevilObs');
+  dynamicPlot(iNatArray, 'idCount', '#myIds');
+}, 60 * 1000);
 
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 
-var WIDTH = 800;
-var HEIGHT = 500;
 
-function dynamicPlot(iNatArrayObject) {
+var WIDTH = 400;
+var HEIGHT = 200;
 
-d3.select('svg')
+function dynamicPlot(iNatArrayObject, key, svgID) {
+	
+d3.select(svgID)
 	.style('width', WIDTH + 'px')
 	.style('height', HEIGHT + 'px');
 
-d3.selectAll("g > *").remove()
+d3.select(svgID).selectAll("g > *").remove()
 	
 var yScale = d3.scaleLinear();
 yScale.range([HEIGHT, 0]);
 var yMin = d3.min(iNatArrayObject, function(datum, index){
-	return datum.allCount - 100;
+	return datum[key] - 10;
 })
 var yMax = d3.max(iNatArrayObject, function(datum, index){
-	return datum.allCount + 100;
+	return datum[key] + 20;
 })
 
 //yScale.domain(yDomain);
@@ -116,18 +121,16 @@ yScale.domain([yMin, yMax]);
 //console.log(yMax)
 //console.log(yScale.range())
 
-d3.select('svg').selectAll('circle')
+d3.select(svgID).selectAll('circle')
 	.data(iNatArrayObject)
 	.enter()
 	.append('circle')
 
-d3.selectAll('circle')
+d3.select(svgID).selectAll('circle')
 	.attr('cy', function(datum, index){
-		return yScale(datum.allCount);
+		return yScale(datum[key]);
 	});
 	
-var parseTime = d3.timeParse("%B%e, %Y at %-I:%M%p");
-var formatTime = d3.timeFormat("%d %b %Y %-I:%M%p");
 var xScale = d3.scaleTime();	
 xScale.range([0, WIDTH]);
 var xDomain = d3.extent(iNatArrayObject, function(datum, index){
@@ -139,19 +142,19 @@ xScale.domain(xDomain);
 //console.log(xScale.range())
 	
 	
-d3.selectAll('circle').data(iNatArrayObject)
+d3.select(svgID).selectAll('circle').data(iNatArrayObject)
 	.attr('cx', function(datum, index){
 		return xScale(datum.dateString);
 	});
 
 var bottomAxis = d3.axisBottom(xScale);
-d3.select('svg')
+d3.select(svgID)
 	.append('g')
 	.call(bottomAxis)
 	.attr('transform', 'translate(0,'+HEIGHT+')');
 	
 var leftAxis = d3.axisLeft(yScale);
-d3.select('svg')
+d3.select(svgID)
 	.append('g')
 	.call(leftAxis);
 

@@ -10,7 +10,7 @@ svg {
 }
 
 body {
-	margin: 20px 40px;
+	margin: 20px 100px;
 }
 
 table, th, td {
@@ -20,4 +20,11 @@ table, th, td {
 th, td {
 	padding: 10px;
 	text-align: center;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto;
+  padding: 20px;
+  font-size: 8px;
 }
