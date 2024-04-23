@@ -1,0 +1,13 @@
+circle {
+	r: 5px;
+	fill: black;
+}
+
+svg {
+	border: 1px solid black;
+	overflow: visible;
+}
+
+body {
+	margin: 20px 40px;
+}
