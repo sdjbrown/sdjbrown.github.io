@@ -1,6 +1,6 @@
 var projAO, projWO, projWRO, projMI, dayAO, dayWO, dayWRO, dayMI;
 var iNatArray = [];
-var updateFreq = 5;
+var updateFreq = 120;
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
