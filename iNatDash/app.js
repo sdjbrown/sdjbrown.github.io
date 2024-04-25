@@ -120,10 +120,12 @@ setAsyncInterval(async () => {
   
   $('#AllObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projAllCount);
   $('#WeevilObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projWeevilCount);
+  $('#WeevilObservations span#RGproj').text('Research grade: '+iNatArray[iNatArray.length-1].projWeevilRGCount);
   $('#MyIdentifications span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projIDCount);
 	
   $('#AllObservations span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayAllCount);
   $('#WeevilObservations span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayWeevilCount);
+  $('#WeevilObservations span#RGday').text('Research grade total: '+iNatArray[iNatArray.length-1].dayWeevilRGCount);
   $('#MyIdentifications span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayIDCount);
   dynamicPlot(iNatArray, 'allCount', '#totalObs');
   weevilPlot(iNatArray, '#weevilObs');

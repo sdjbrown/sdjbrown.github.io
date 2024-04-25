@@ -27,8 +27,8 @@
 <div class="grid-item" id='WeevilObservations'>
 <h3>Weevil observations</h3>
 <span id='summary'></span>. Research Grade <span id='RGsummary'></span><br />
-<span id='projCounts'></span><br />
-<span id='dayCounts'></span>&nbsp;&nbsp;<span id='WOstartSetValue'></span><br />
+<span id='projCounts'></span> <span id='RGproj'></span><br /><br />
+<span id='dayCounts'></span>&nbsp;&nbsp;<span id='WOstartSetValue'></span> <span id='RGday'></span><br /><br />
 <p />
 
 <svg id='weevilObs'>
@@ -60,6 +60,7 @@
 <p />Add inital counts for:
 <p />Total observations:&nbsp;<input type="number" id="AOstart" > <button onclick="dayAO = displayMessage('AOstart')">Submit</button><br />
 <p />Weevil observations:&nbsp;<input type="number" id="WOstart" > <button onclick="dayWO = displayMessage('WOstart')">Submit</button><br />
+<p />Weevil Research Grade observations:&nbsp;<input type="number" id="WROstart" > <button onclick="dayWRO = displayMessage('WROstart')">Submit</button><br />
 <p />Identifications:&nbsp;<input type="number" id="MIstart" > <button onclick="dayMI = displayMessage('MIstart')">Submit</button><br />
 
 
@@ -69,6 +70,8 @@
 <span id='AOPstartSetValue'></span><br />
 <p />Weevil observations:&nbsp;<input type="number" id="WOPstart" > <button onclick="projWO = displayMessage('WOPstart')">Submit</button><br />
 <span id='WOPstartSetValue'></span><br />
+<p />Weevil Research Grade observations:&nbsp;<input type="number" id="WROPstart" > <button onclick="projWRO = displayMessage('WROPstart')">Submit</button><br />
+<span id='WROPstartSetValue'></span><br />
 <p />Identifications:&nbsp;<input type="number" id="MIPstart" > <button onclick="projMI = displayMessage('MIPstart')">Submit</button><br />
 <span id='MIPstartSetValue'></span><br />
 
