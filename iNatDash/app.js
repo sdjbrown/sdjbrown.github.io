@@ -1,6 +1,6 @@
 var projAO, projWO, projMI, dayAO, dayWO, dayMI;
 var iNatArray = [];
-var updateFreq = 5;
+var updateFreq = 120;
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
@@ -36,7 +36,8 @@ async function addData() {
 	return iNatArray.push(ndata);
 }
 
-
+//https://stackoverflow.com/questions/31059824/set-input-value-to-javascript-variable
+//https://jsfiddle.net/0p8rjq9h/
 function displayMessage(fieldTag){
 		var themsg = document.getElementById(fieldTag).value;
     if (themsg){
