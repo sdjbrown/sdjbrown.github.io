@@ -208,6 +208,8 @@ function weevilPlot(iNatArrayObject, svgID) {
 		.style('height', HEIGHT + 'px');
 
 	d3.select(svgID).selectAll("g > *").remove()
+	
+//Set up Y-axis scales
 		
 	var yScale = d3.scaleLinear();
 	yScale.range([HEIGHT, 0]);
@@ -229,32 +231,8 @@ function weevilPlot(iNatArrayObject, svgID) {
 	})
 	yRGScale.domain([yRGMin, yRGMax]);
 
-	//console.log(yMax)
-	//console.log(yScale.range())
-
-	d3.select(svgID).selectAll('circle')
-		.data(iNatArrayObject)
-		.enter()
-		.append('circle')
-		.attr('class', 'AllObs');
-
-	d3.select(svgID).selectAll('circle')
-		.data(iNatArrayObject)
-		.enter()
-		.append('circle')
-		.attr('class', 'RGObs');
-		
-
-	d3.select(svgID).selectAll('.AllObs')
-		.attr('cy', function(datum, index){
-			return yScale(datum['weevilCount']);
-		});
-		
-	d3.select(svgID).selectAll('.RGObs')
-		.attr('cy', function(datum, index){
-			return yRGScale(datum['weevilRGCount']);
-		});
-		
+//Set up X-axis scales
+	
 	var xScale = d3.scaleTime();	
 	xScale.range([0, WIDTH]);
 	var xDomain = d3.extent(iNatArrayObject, function(datum, index){
@@ -262,22 +240,40 @@ function weevilPlot(iNatArrayObject, svgID) {
 	})
 	xScale.domain(xDomain);
 
-	//console.log(xScale.domain())
-	//console.log(xScale.range())
-		
-		
-	d3.select(svgID).selectAll('.AllObs').data(iNatArrayObject)
-		.style('fill', 'red')
-		.attr('cx', function(datum, index){
+//Add points
+	
+	d3.select(svgID).append("g")
+	      .attr("id", "allPoints")
+	      .selectAll("circle")
+	      .data(iNatArrayObject)
+	      .enter()
+	      .append("svg:circle")
+	      .attr("r", 6)
+	      .style("fill", "black")
+	      .attr('cx', function(datum, index){
 			return xScale(datum.dateString);
-		});
-		
-	d3.select(svgID).selectAll('.RGObs').data(iNatArrayObject)
-		.style('fill', 'blue')
-		.attr('cx', function(datum, index){
-			return xScale(datum.dateString);
+		})
+	      .attr('cy', function(datum, index){
+			return yScale(datum['weevilCount']);
 		});
 
+	d3.select(svgID).append("g")
+	      .attr("id", "allPoints")
+	      .selectAll("circle")
+	      .data(iNatArrayObject)
+	      .enter()
+	      .append("svg:circle")
+	      .attr("r", 6)
+	      .style("fill", "blue")
+	      .attr('cx', function(datum, index){
+			return xScale(datum.dateString);
+		})
+	      .attr('cy', function(datum, index){
+			return yRGScale(datum['weevilRGCount']);
+		});
+
+//Add axes
+		
 	var bottomAxis = d3.axisBottom(xScale);
 	d3.select(svgID)
 		.append('g')
