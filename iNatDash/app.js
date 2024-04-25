@@ -1,13 +1,6 @@
-var projAO, projWO, projMI, dayAO, dayWO, dayMI
+var projAO, projWO, projMI, dayAO, dayWO, dayMI;
 var iNatArray = [];
-
-projAO = 180704153
-projWO = 516277
-projMI = 283154
-
-dayAO = 180704253
-dayWO = 516377
-dayMI = 283254
+var updateFreq = 5;
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
@@ -41,6 +34,18 @@ async function addData() {
 	console.log(iNatArray);
 	const ndata = await iNatRetrieve();
 	return iNatArray.push(ndata);
+}
+
+
+function displayMessage(fieldTag){
+		var themsg = document.getElementById(fieldTag).value;
+    if (themsg){
+        $('#'+fieldTag+'SetValue').text('(Initial count: '+themsg+'.)');
+    }
+    else{
+        $('#'+fieldTag+'SetValue').text('No number set');
+    }
+    return themsg;
 }
 
 //--------------------------------------------------------------------------------
@@ -97,9 +102,11 @@ const clearAsyncInterval = (intervalIndex) => {
 setAsyncInterval(async () => {
   console.log('start'+counter++);
   await addData();
-  $('#AllObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].allCount);
-  $('#WeevilObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].weevilCount);
-  $('#MyIdentifications span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].idCount);
+  $('#date').text(iNatArray[iNatArray.length-1].dateString);
+  $('#AllObservations span#summary').text('Total count: '+iNatArray[iNatArray.length-1].allCount);
+  $('#WeevilObservations span#summary').text('Total count: '+iNatArray[iNatArray.length-1].weevilCount);
+  $('#MyIdentifications span#summary').text('Total count: '+iNatArray[iNatArray.length-1].idCount);
+  
   
   $('#AllObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projAllCount);
   $('#WeevilObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projWeevilCount);
@@ -111,7 +118,7 @@ setAsyncInterval(async () => {
   dynamicPlot(iNatArray, 'allCount', '#totalObs');
   dynamicPlot(iNatArray, 'weevilCount', '#weevilObs');
   dynamicPlot(iNatArray, 'idCount', '#myIds');
-}, 5 * 1000);
+}, updateFreq * 1000);
 
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------

@@ -7,13 +7,16 @@
 </head>
 
 <body>
+<h1>iNaturalist counts</h1>
+<h3>As at <span id='date' /></h3>
 <div class="grid-container">
 
 <div class="grid-item" id='AllObservations'>
 <h3>All observations</h3>
 <span id='summary'></span><br />
 <span id='projCounts'></span><br />
-<span id='dayCounts'></span><br />
+<span id='dayCounts'></span>&nbsp;&nbsp;<span id='AOstartSetValue'></span><br />
+<p />
 
 <svg id='totalObs'>
 </svg>
@@ -25,7 +28,8 @@
 <h3>Weevil observations</h3>
 <span id='summary'></span><br />
 <span id='projCounts'></span><br />
-<span id='dayCounts'></span><br />
+<span id='dayCounts'></span>&nbsp;&nbsp;<span id='WOstartSetValue'></span><br />
+<p />
 
 <svg id='weevilObs'>
 </svg>
@@ -37,17 +41,46 @@
 <h3>My identifications</h3>
 <span id='summary'></span><br />
 <span id='projCounts'></span><br />
-<span id='dayCounts'></span><br />
+<span id='dayCounts'></span>&nbsp;&nbsp;<span id='MIstartSetValue'></span><br />
+<p />
 
 <svg id='myIds'>
 </svg>
 
 </div>
-</div>
 
-<div id='Download'>
+<div class="grid-item" id='Settings' style="font-size: 12px;">
+
+<!--
+<p />Update frequency:&nbsp;<input type="number" id="upFreq"> <button onclick="updateFreq = displayMessage('upFreq')">Submit</button><br />
+<span id='upFreqSetValue'></span><br />
+-->
+
+<h3> Daily counts</h3>
+<p />Add inital counts for:
+<p />Total observations:&nbsp;<input type="number" id="AOstart" > <button onclick="dayAO = displayMessage('AOstart')">Submit</button><br />
+<p />Weevil observations:&nbsp;<input type="number" id="WOstart" > <button onclick="dayWO = displayMessage('WOstart')">Submit</button><br />
+<p />Identifications:&nbsp;<input type="number" id="MIstart" > <button onclick="dayMI = displayMessage('MIstart')">Submit</button><br />
+
+
+<h3 style="padding-top: 40px;"> Project counts</h3>
+<p />Add inital counts for:
+<p />Total observations:&nbsp;<input type="number" id="AOPstart" > <button onclick="projAO = displayMessage('AOPstart')">Submit</button><br />
+<span id='AOPstartSetValue'></span><br />
+<p />Weevil observations:&nbsp;<input type="number" id="WOPstart" > <button onclick="projWO = displayMessage('WOPstart')">Submit</button><br />
+<span id='WOPstartSetValue'></span><br />
+<p />Identifications:&nbsp;<input type="number" id="MIPstart" > <button onclick="projMI = displayMessage('MIPstart')">Submit</button><br />
+<span id='MIPstartSetValue'></span><br />
+
+<!-- <div id='Download'>
 <button onclick="saveFile()">Download data</button>
 </div>
+-->
+
+</div>
+
+</div>
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
