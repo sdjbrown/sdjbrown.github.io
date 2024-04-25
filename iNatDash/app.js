@@ -1,3 +1,14 @@
+var projAO, projWO, projMI, dayAO, dayWO, dayMI
+var iNatArray = [];
+
+projAO = 180704153
+projWO = 516277
+projMI = 283154
+
+dayAO = 180704253
+dayWO = 516377
+dayMI = 283254
+
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
   const allJson = await allURL.json(); //extract JSON from the http response
@@ -6,10 +17,16 @@ async function iNatRetrieve() {
   const idURL = await fetch('https://api.inaturalist.org/v1/identifications?own_observation=false&user_id=sdjbrown&current=true&order=desc&order_by=created_at');
   const idJson = await idURL.json(); //extract JSON from the http response
   const date = new Date(Date.now());
-  const weevilRes = weevilJson.total_results;
   const allRes = allJson.total_results;
+  const projAllCounts = allRes - projAO;
+  const dayAllCounts = allRes - dayAO;
+  const weevilRes = weevilJson.total_results;
+  const projWeevilCounts = weevilRes - projWO;
+  const dayWeevilCounts = weevilRes - dayWO;
   const idRes = idJson.total_results;
-  const out =  [{dateString: date, allCount: allRes, weevilCount: weevilRes, idCount: idRes}];
+  const projIDCounts = idRes - projMI;
+  const dayIDCounts = idRes - dayMI;
+  const out =  [{dateString: date, allCount: allRes, projAllCount: projAllCounts, dayAllCount: dayAllCounts, weevilCount: weevilRes, projWeevilCount: projWeevilCounts, dayWeevilCount: dayWeevilCounts, idCount: idRes, projIDCount: projIDCounts, dayIDCount: dayIDCounts}];
   return out[0]
 }
 
@@ -19,8 +36,6 @@ async function iNatRetrieve() {
 //	d3.select('#iNat').text(printRes.dateString+': '+printRes.count)
 //	//d3.select('#iNat').text(dd+': '+cc)
 //}
-
-var iNatArray = [];
 
 async function addData() {
 	console.log(iNatArray);
@@ -85,6 +100,14 @@ setAsyncInterval(async () => {
   $('#AllObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].allCount);
   $('#WeevilObservations span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].weevilCount);
   $('#MyIdentifications span#summary').text(iNatArray[iNatArray.length-1].dateString+': '+iNatArray[iNatArray.length-1].idCount);
+  
+  $('#AllObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projAllCount);
+  $('#WeevilObservations span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projWeevilCount);
+  $('#MyIdentifications span#projCounts').text('Project total: '+iNatArray[iNatArray.length-1].projIDCount);
+	
+  $('#AllObservations span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayAllCount);
+  $('#WeevilObservations span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayWeevilCount);
+  $('#MyIdentifications span#dayCounts').text('Day total: '+iNatArray[iNatArray.length-1].dayIDCount);
   dynamicPlot(iNatArray, 'allCount', '#totalObs');
   dynamicPlot(iNatArray, 'weevilCount', '#weevilObs');
   dynamicPlot(iNatArray, 'idCount', '#myIds');
