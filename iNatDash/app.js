@@ -1,12 +1,14 @@
-var projAO, projWO, projMI, dayAO, dayWO, dayMI;
+var projAO, projWO, projWRO, projMI, dayAO, dayWO, dayWRO, dayMI;
 var iNatArray = [];
-var updateFreq = 120;
+var updateFreq = 5;
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
   const allJson = await allURL.json(); //extract JSON from the http response
   const weevilURL = await fetch('https://api.inaturalist.org/v2/observations?taxon_id=60473&verifiable=true&per_page=5', {cache: "no-store"});
   const weevilJson = await weevilURL.json(); //extract JSON from the http response
+  const weevilRGURL = await fetch('https://api.inaturalist.org/v2/observations?taxon_id=60473&quality_grade=research&verifiable=true&per_page=5', {cache: "no-store"});
+  const weevilRGJson = await weevilRGURL.json(); //extract JSON from the http response
   const idURL = await fetch('https://api.inaturalist.org/v1/identifications?own_observation=false&user_id=sdjbrown&current=true&order=desc&order_by=created_at', {cache: "no-store"});
   const idJson = await idURL.json(); //extract JSON from the http response
   const date = new Date(Date.now());
@@ -16,10 +18,16 @@ async function iNatRetrieve() {
   const weevilRes = weevilJson.total_results;
   const projWeevilCounts = weevilRes - projWO;
   const dayWeevilCounts = weevilRes - dayWO;
+  const weevilRGRes = weevilRGJson.total_results;
+  const projWeevilRGCounts = weevilRGRes - projWRO;
+  const dayWeevilRGCounts = weevilRGRes - dayWRO;
   const idRes = idJson.total_results;
   const projIDCounts = idRes - projMI;
   const dayIDCounts = idRes - dayMI;
-  const out =  [{dateString: date, allCount: allRes, projAllCount: projAllCounts, dayAllCount: dayAllCounts, weevilCount: weevilRes, projWeevilCount: projWeevilCounts, dayWeevilCount: dayWeevilCounts, idCount: idRes, projIDCount: projIDCounts, dayIDCount: dayIDCounts}];
+  const out =  [{dateString: date, allCount: allRes, projAllCount: projAllCounts, dayAllCount: dayAllCounts, 
+	  weevilCount: weevilRes, projWeevilCount: projWeevilCounts, dayWeevilCount: dayWeevilCounts, 
+	  weevilRGCount: weevilRGRes, projWeevilRGCount: projWeevilRGCounts, dayWeevilRGCount: dayWeevilRGCounts, 
+	  idCount: idRes, projIDCount: projIDCounts, dayIDCount: dayIDCounts}];
   return out[0]
 }
 
@@ -106,6 +114,7 @@ setAsyncInterval(async () => {
   $('#date').text(iNatArray[iNatArray.length-1].dateString);
   $('#AllObservations span#summary').text('Total count: '+iNatArray[iNatArray.length-1].allCount);
   $('#WeevilObservations span#summary').text('Total count: '+iNatArray[iNatArray.length-1].weevilCount);
+  //$('#WeevilObservations span#RGsummary').text('Total count: '+iNatArray[iNatArray.length-1].weevilRGCount);
   $('#MyIdentifications span#summary').text('Total count: '+iNatArray[iNatArray.length-1].idCount);
   
   
