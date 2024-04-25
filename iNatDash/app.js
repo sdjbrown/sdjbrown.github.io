@@ -49,7 +49,7 @@ async function addData() {
 function displayMessage(fieldTag){
 		var themsg = document.getElementById(fieldTag).value;
     if (themsg){
-        $('#'+fieldTag+'SetValue').text('(Initial count: '+themsg+'.)');
+        $('#'+fieldTag+'SetValue').text('(Initial count: '+themsg+')');
     }
     else{
         $('#'+fieldTag+'SetValue').text('No number set');
