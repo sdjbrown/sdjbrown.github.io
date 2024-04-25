@@ -14,7 +14,7 @@ async function iNatRetrieve() {
   const allJson = await allURL.json(); //extract JSON from the http response
   const weevilURL = await fetch('https://api.inaturalist.org/v2/observations?taxon_id=60473&verifiable=true&per_page=5', {cache: "no-store"});
   const weevilJson = await weevilURL.json(); //extract JSON from the http response
-  const idURL = await fetch('https://api.inaturalist.org/v1/identifications?own_observation=false&user_id=sdjbrown&current=true&order=desc&order_by=created_at');
+  const idURL = await fetch('https://api.inaturalist.org/v1/identifications?own_observation=false&user_id=sdjbrown&current=true&order=desc&order_by=created_at', {cache: "no-store"});
   const idJson = await idURL.json(); //extract JSON from the http response
   const date = new Date(Date.now());
   const allRes = allJson.total_results;
