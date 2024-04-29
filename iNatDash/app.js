@@ -57,6 +57,23 @@ function displayMessage(fieldTag){
     return themsg;
 }
 
+
+function setSessionTotals() {
+	projAO = dayAO = iNatArray[0].allCount;
+	projWO = dayWO = iNatArray[0].weevilCount;
+	projWRO = dayWRO = iNatArray[0].weevilRGCount;
+	projMI = dayMI = iNatArray[0].idCount;
+	
+	$('#AOstartSetValue').text('(Initial count: '+dayAO+')')
+	$('#WOstartSetValue').text('(Initial count: '+dayWO+')')
+	$('#WROstartSetValue').text('(Initial count: '+dayWRO+')')
+	$('#MIstartSetValue').text('(Initial count: '+dayMI+')')
+	
+	$('#AOPstartSetValue').text('(Initial count: '+projAO+')')
+	$('#WOPstartSetValue').text('(Initial count: '+projWO+')')
+	$('#WROPstartSetValue').text('(Initial count: '+projWRO+')')
+	$('#MIPstartSetValue').text('(Initial count: '+projMI+')')
+}
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
