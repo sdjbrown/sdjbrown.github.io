@@ -1,6 +1,7 @@
 var projAO, projWO, projWRO, projMI, dayAO, dayWO, dayWRO, dayMI;
 var iNatArray = [];
 var updateFreq = 120;
+var yearMIstart = 258948; //2024-01-01
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
@@ -73,6 +74,22 @@ function setSessionTotals() {
 	$('#WOPstartSetValue').text('(Initial count: '+projWO+')')
 	$('#WROPstartSetValue').text('(Initial count: '+projWRO+')')
 	$('#MIPstartSetValue').text('(Initial count: '+projMI+')')
+}
+
+//https://stackoverflow.com/questions/8619879/javascript-calculate-the-day-of-the-year-1-366
+function dayNo(y,m,d){
+  return m*31-(m>1?(1054267675>>m*3-6&7)-(y&3||!(y%25)&&y&15?0:1):0)+d;
+}
+
+function showYearlyTotals() {
+	var yearMItoDate = iNatArray[iNatArray.length-1].idCount - yearMIstart;
+	const today = new Date();
+	const dayNum = dayNo(today.getFullYear(), today.getMonth(), today.getDate());
+	var daysLeft = 365 - dayNum;
+	var IDsLeft = 100000 - yearMItoDate;
+
+	$('#yearToDateValue').text('IDs made this year: '+yearMItoDate)
+	$('#IDsPerDay').text('IDs per day remining this year: '+Math.round((IDsLeft/daysLeft) * 10)/10)
 }
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
