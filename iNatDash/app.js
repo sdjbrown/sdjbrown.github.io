@@ -90,7 +90,7 @@ function showYearlyTotals() {
 	var IDsLeft = 100000 - yearMItoDate;
 
 	$('#yearToDateValue').text('IDs made this year: '+yearMItoDate)
-	$('#IDsPerDay').text('IDs per day remining this year: '+Math.round((IDsLeft/daysLeft) * 10)/10)
+	$('#IDsPerDay').text('IDs per day remaining this year: '+Math.round((IDsLeft/daysLeft) * 10)/10)
 }
 //--------------------------------------------------------------------------------
 //--------------------------------------------------------------------------------
