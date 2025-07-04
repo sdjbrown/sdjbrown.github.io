@@ -87,7 +87,8 @@ function showYearlyTotals() {
 	const today = new Date();
 	const dayNum = dayNo(today.getFullYear(), today.getMonth(), today.getDate());
 	var daysLeft = 365 - dayNum;
-	var IDsLeft = 100000 - yearMItoDate;
+	//var IDsLeft = 100000 - yearMItoDate;
+	var IDsLeft = 500000 - iNatArray[iNatArray.length-1].idCount;
 
 	$('#yearToDateValue').text('IDs made this year: '+yearMItoDate)
 	$('#IDsPerDay').text('IDs per day remaining this year: '+Math.round((IDsLeft/daysLeft) * 10)/10)
