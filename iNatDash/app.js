@@ -3,7 +3,7 @@ var iNatArray = [];
 var updateFreq = 120;
 //var yearMIstart = 258948; //2024-01-01
 //var yearMIstart = 363957; //2025-01-01
-var yearMIstart = 467773; //2026-01-01
+var yearMIstart = 476773; //2026-01-01
 
 async function iNatRetrieve() {
   const allURL = await fetch('https://api.inaturalist.org/v2/observations?verifiable=true&place=any&per_page=5', {cache: "no-store"});
