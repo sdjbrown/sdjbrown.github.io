@@ -1,0 +1,78 @@
+<html>
+
+<head>
+</head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+function randomIntFromInterval(min, max) { // min and max included //https://stackoverflow.com/questions/4959975
+  return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+
+var delayTime, startTime, alarmTime;
+const teue = new Audio('https://static.inaturalist.org/sounds/1248816.wav?1731299751');
+
+function checkTime() {
+var timeNow = Date.now();
+  $('#timeNowPrettyValue').text('Time now: '+new Date(timeNow).toLocaleTimeString());
+      if (alarmTime - timeNow < 0){
+	teue.play();
+	}
+	else { if (timeNow < alarmTime - (60 * 60 * 1000)){
+        $('#durationValue').text('Greater than 1 hr remaining');
+      }
+     else{
+        $('#durationValue').text('Less than 1 hr remaining');
+    }
+    }
+}
+
+
+
+async function run_timer() {
+	startTime = Date.now();
+	alarmTime = randomIntFromInterval(startTime, startTime + delayTime)
+	
+	$('#startTimeValue').text('Start time: '+startTime);
+	$('#delayTimeValue').text('Delay time: '+delayTime);
+	$('#startTimePrettyValue').text('Start time: '+new Date(startTime).toLocaleTimeString());
+	$('#alarmTimeValue').text('Alarm time: '+alarmTime);
+	$('#alarmTimePrettyValue').text('Alarm time: '+new Date(alarmTime).toLocaleTimeString());
+	
+	setInterval(checkTime, 1000);
+}
+
+
+
+</script>
+
+</head>
+
+<body>
+
+<h1>Random alarm</h1>
+
+<p />Maximum delay (h):&nbsp;<input type="number" value = 10 id="DelayTime" /> <button onclick="delayTime = DelayTime.value * 60 * 60 * 1000
+">Submit</button>
+<p/><span id='DelayTimeSetValue'></span>
+
+<p />
+<input type=button value="Start timer" onclick="run_timer()" />
+
+<p />
+<span id='delayTimeValue'></span><br />
+<span id='startTimeValue'></span><br />
+<span id='startTimePrettyValue'></span><br />
+<span id='alarmTimeValue'></span><br />
+<span id='alarmTimePrettyValue'></span><br />
+<span id='timeNowPrettyValue'></span><br />
+<span id='durationValue'></span><br />
+
+<p />
+
+
+</body>
+</html>
+
