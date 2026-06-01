@@ -27,6 +27,7 @@ var timeNow = Date.now();
   $('#timeNowPrettyValue').text('Time now: '+new Date(timeNow).toLocaleTimeString());
       if (alarmTime - timeNow < 0){
 	teue.play();
+	$('#durationValue').text('Time exceeded');
 	}
 	else { if (timeNow < alarmTime - (60 * 60 * 1000)){
         $('#durationValue').text('Greater than 1 hr remaining');
@@ -44,10 +45,10 @@ async function run_timer() {
 	startTime = Date.now();
 	alarmTime = randomIntFromInterval(startTime, startTime + delayTime)
 	
-	$('#startTimeValue').text('Start time: '+startTime);
-	$('#delayTimeValue').text('Delay time: '+delayTime);
+	//$('#startTimeValue').text('Start time: '+startTime);
+	//$('#delayTimeValue').text('Delay time: '+delayTime);
 	$('#startTimePrettyValue').text('Start time: '+new Date(startTime).toLocaleTimeString());
-	$('#alarmTimeValue').text('Alarm time: '+alarmTime);
+	//$('#alarmTimeValue').text('Alarm time: '+alarmTime);
 	$('#alarmTimePrettyValue').text('Alarm time: '+new Date(alarmTime).toLocaleTimeString());
 	
 	setInterval(checkTime, 1000);
