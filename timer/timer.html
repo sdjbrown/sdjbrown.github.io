@@ -27,8 +27,6 @@ var timeNow = Date.now();
   $('#timeNowPrettyValue').text('Time now: '+new Date(timeNow).toLocaleTimeString());
       if (alarmTime - timeNow < 0){
 	beep2.play();
-	setTimeout(beep2.play(), 1000);
-	setTimeout(beep2.play(), 1000);
 	$('#durationValue').text('Time exceeded');
 	}
 	else { if (timeNow < alarmTime - (60 * 60 * 1000)){
