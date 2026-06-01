@@ -24,16 +24,24 @@ var delayTime, startTime, alarmTime;
 
 function checkTime() {
 var timeNow = Date.now();
+var notice = document.getElementById("durationValue");
   $('#timeNowPrettyValue').text('Time now: '+new Date(timeNow).toLocaleTimeString());
       if (alarmTime - timeNow < 0){
 	beep2.play();
 	$('#durationValue').text('Time exceeded');
+	notice.style.fontSize = '64px';
+	notice.style.fontWeight = 'bold';
+	notice.style.color = 'red';
 	}
 	else { if (timeNow < alarmTime - (60 * 60 * 1000)){
         $('#durationValue').text('Greater than 1 hr remaining');
+	notice.style.fontSize = "16px";
+	notice.style.color = "black";
       }
      else{
         $('#durationValue').text('Less than 1 hr remaining');
+        notice.style.fontSize = "24px";
+        notice.style.color = "blue";
     }
     }
 }
