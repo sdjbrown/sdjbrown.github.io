@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset = "utf-8">
+<title>iNaturalist area alert</title>
+<link rel="stylesheet" href="app.css">
+</head>
+
+
+<div id='Setup' style="font-size: 12px;">
+
+<h3> Region</h3>
+<p />Latitude:&nbsp;<input type="number" value = -36.8 id="setLatitude" > <button onclick="latitude = displayMessage('setLatitude')">Submit</button> <span id='setLatitudeSetValue'></span><br />
+<p />Longitude:&nbsp;<input type="number" value = 174.7 id="setLongitude" > <button onclick="longitude = displayMessage('setLongitude')">Submit</button> <span id='setLongitudeSetValue'></span><br />
+<p />Radius:&nbsp;<input type="number" value = 200 id="setRadius" > <button onclick="radius = displayMessage('setRadius')">Submit</button> <span id='setRadiusSetValue'></span><br />
+<p />Place ID:&nbsp;<input type="number" value = NaN id="setPlaceID" > <button onclick="placeID = displayMessage('setPlaceID')">Submit</button> <span id='setPlaceIDSetValue'></span><br />
+<p />Focal Taxon ID:&nbsp;<input type="number" value = 67561 id="setFocalTaxonID" > <button onclick="focalTaxonID = displayMessage('setFocalTaxonID')">Submit</button> <span id='setFocalTaxonIDSetValue'></span><br />
+<p />Username:&nbsp;<input type="string" value = "sdjbrown" id="setUser" > <button onclick="user = displayMessage('setUser')">Submit</button> <span id='setUserSetValue'></span><br />
+<p />Date from:&nbsp;<input type="string" value = "2026-01-01" id="setDate" > <button onclick="dateFrom = displayMessage('setDate')">Submit</button> <span id='setDateSetValue'></span><br />
+
+
+<button onclick="apiCall()">Show the species</button><p/>
+<span id='apiCall'></span><br />
+
+
+<button onclick="createTable()">Create Table</button>
+<div id="tableContainer"></div>
+
+
+</div>
+
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://d3js.org/d3.v5.min.js"></script>
+<script src="app.js" charset="utf-8"></script>
+
+</body>
+</html>
